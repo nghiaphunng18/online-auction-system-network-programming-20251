@@ -1,0 +1,7 @@
+995078 room=2 from=buyer1 to=khai msg=hello
+1010471 room=2 from=khai to=buyer1 msg=xin chao
+6840075 room=2 from=khai to=ROOM msg=meme
+14895490 room=6 from=buyer1 to=ROOM msg=top1
+531998 room=8 from=seller1 to=buyer1 msg=meme
+554191 room=8 from=seller1 to=ROOM msg=hello
+4595406 room=9 from=khai to=ROOM msg=meem
