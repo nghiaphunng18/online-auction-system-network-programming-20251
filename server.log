@@ -1,0 +1,263 @@
+4883261 [BOOT] loaded state: users=4 rooms=2 items=4
+4935201 [NET] accepted fd=6
+4949616 [AUTH] login uid=4 user=khai
+4949630 [NET] closed fd=6
+6307739 [NET] accepted fd=6
+6316998 [AUTH] login uid=4 user=khai
+6317009 [NET] closed fd=6
+7189685 [NET] accepted fd=6
+7199545 [AUTH] login uid=4 user=khai
+7293206 [NET] closed fd=6
+9127754 [SAVE] state saved to auction_state.txt
+9127754 [SHUTDOWN] saved state & exit
+9377155 [BOOT] loaded state: users=4 rooms=2 items=4
+9377541 [NET] accepted fd=6
+9380799 [NET] closed fd=6
+9380802 [NET] accepted fd=6
+9388290 [AUTH] login uid=4 user=khai
+9461478 [ROOM] created rid=3 name=auction1
+9461486 [SAVE] state saved to auction_state.txt
+9493247 [SAVE] state saved to auction_state.txt
+9530845 [NET] closed fd=6
+9652955 [NET] accepted fd=6
+9659360 [AUTH] login uid=4 user=khai
+9683375 [NET] closed fd=6
+9786003 [NET] accepted fd=6
+9795677 [AUTH] login uid=4 user=khai
+9861935 [NET] closed fd=6
+13485083 [NET] accepted fd=6
+13492882 [AUTH] login uid=4 user=khai
+14097110 [NET] closed fd=6
+14593943 [NET] accepted fd=6
+14606662 [AUTH] login uid=4 user=khai
+15047546 [NET] closed fd=6
+15195855 [NET] accepted fd=6
+15206810 [AUTH] login uid=4 user=khai
+15578047 [SAVE] state saved to auction_state.txt
+15578047 [SHUTDOWN] saved state & exit
+15635060 [BOOT] loaded state: users=4 rooms=3 items=5
+15644639 [NET] accepted fd=6
+15652171 [AUTH] login uid=4 user=khai
+15936996 [NET] closed fd=6
+18949059 [SAVE] state saved to auction_state.txt
+18949059 [SHUTDOWN] saved state & exit
+18996942 [BOOT] loaded state: users=4 rooms=3 items=5
+20172474 [SAVE] state saved to auction_state.txt
+20172474 [SHUTDOWN] saved state & exit
+24624566 [BOOT] loaded state: users=4 rooms=3 items=5
+24628016 [NET] accepted fd=6
+24636561 [AUTH] login uid=4 user=khai
+24696694 [SAVE] state saved to auction_state.txt
+24709128 [SAVE] state saved to auction_state.txt
+24802625 [SAVE] state saved to auction_state.txt
+24929652 [NET] closed fd=6
+24947909 [NET] accepted fd=6
+24949543 [AUTH] login uid=2 user=buyer1
+25013757 [SAVE] state saved to auction_state.txt
+25031647 [SAVE] state saved to auction_state.txt
+25062224 [NET] closed fd=6
+25072837 [NET] accepted fd=6
+25085217 [AUTH] login uid=4 user=khai
+25091621 [ROOM] ended rid=3 by=4
+25091626 [SAVE] state saved to auction_state.txt
+25203002 [NET] closed fd=6
+25225885 [NET] accepted fd=6
+25227656 [AUTH] login uid=2 user=buyer1
+25448306 [NET] closed fd=6
+25462585 [NET] accepted fd=6
+25464282 [AUTH] login uid=4 user=khai
+25510531 [NET] closed fd=6
+25525316 [NET] accepted fd=6
+25526880 [AUTH] login uid=3 user=buyer2
+29009977 [NET] closed fd=6
+29015330 [SAVE] state saved to auction_state.txt
+29015330 [SHUTDOWN] saved state & exit
+29025841 [BOOT] loaded state: users=4 rooms=3 items=6
+29076144 [NET] accepted fd=6
+29086155 [AUTH] login uid=4 user=khai
+29954303 [SAVE] state saved to auction_state.txt
+29954303 [SHUTDOWN] saved state & exit
+30002939 [BOOT] loaded state: users=4 rooms=3 items=6
+30003976 [NET] accepted fd=6
+30005501 [NET] closed fd=6
+30005502 [NET] accepted fd=6
+30013276 [NET] closed fd=6
+30018274 [NET] accepted fd=6
+30020611 [AUTH] login uid=4 user=khai
+35972260 [NET] closed fd=6
+35975112 [SAVE] state saved to auction_state.txt
+35975112 [SHUTDOWN] saved state & exit
+36604404 [BOOT] loaded state: users=4 rooms=3 items=6
+36615501 [NET] accepted fd=7
+36625140 [AUTH] login uid=4 user=khai
+37704581 [NET] closed fd=7
+37707197 [SAVE] state saved to auction_state.txt
+37707197 [SHUTDOWN] saved state & exit
+37807774 [BOOT] loaded state: users=4 rooms=3 items=6
+37815043 [NET] accepted fd=7
+37823178 [AUTH] login uid=4 user=khai
+37852453 [SAVE] state saved to auction_state.txt
+37852453 [SHUTDOWN] saved state & exit
+17487 [BOOT] loaded state: users=4 rooms=3 items=6
+40454 [NET] accepted fd=7
+46393 [NET] closed fd=7
+49590 [NET] accepted fd=7
+51195 [AUTH] login uid=4 user=khai
+548781 [NET] closed fd=7
+900757 [NET] accepted fd=7
+908698 [AUTH] login uid=4 user=khai
+923355 [NET] accepted fd=8
+943341 [AUTH] login uid=2 user=buyer1
+1085931 [NET] closed fd=7
+1099590 [NET] closed fd=8
+1107855 [NET] accepted fd=7
+1116459 [NET] closed fd=7
+1119758 [NET] accepted fd=7
+1120048 [NET] closed fd=7
+1124000 [NET] accepted fd=7
+1125982 [AUTH] login uid=4 user=khai
+1152405 [NET] accepted fd=8
+1167233 [AUTH] login uid=3 user=buyer2
+1295303 [NET] closed fd=7
+1298254 [NET] closed fd=8
+6806312 [NET] accepted fd=7
+6817012 [AUTH] login uid=4 user=khai
+6924364 [NET] closed fd=7
+7029836 [NET] accepted fd=7
+7036220 [NET] closed fd=7
+7038147 [NET] accepted fd=7
+7039548 [AUTH] login uid=4 user=khai
+7068699 [NET] closed fd=7
+7111711 [NET] accepted fd=7
+7117940 [NET] closed fd=7
+7120925 [NET] accepted fd=7
+7123038 [AUTH] login uid=4 user=khai
+8740387 [SAVE] state saved to auction_state.txt
+8740387 [SHUTDOWN] saved state & exit
+8854544 [BOOT] loaded state: users=4 rooms=3 items=6
+8863720 [NET] accepted fd=7
+8871609 [AUTH] login uid=4 user=khai
+8890599 [ROOM] created rid=4 name=auction2
+8890604 [SAVE] state saved to auction_state.txt
+8958627 [ROOM] created rid=5 name=auction2
+8958631 [SAVE] state saved to auction_state.txt
+12278777 [NET] closed fd=7
+12281654 [SAVE] state saved to auction_state.txt
+12281654 [SHUTDOWN] saved state & exit
+12665313 [BOOT] loaded state: users=4 rooms=5 items=6
+12673964 [NET] accepted fd=7
+12679968 [NET] closed fd=7
+12681706 [NET] accepted fd=7
+12683918 [NET] closed fd=7
+12686846 [NET] accepted fd=7
+12688293 [AUTH] login uid=4 user=khai
+12751855 [SAVE] state saved to auction_state.txt
+12764048 [SAVE] state saved to auction_state.txt
+12767824 [SAVE] state saved to auction_state.txt
+12819528 [NET] closed fd=7
+12834063 [NET] accepted fd=7
+12842935 [AUTH] login uid=4 user=khai
+12986750 [ROOM] ended rid=4 by=4
+12986754 [SAVE] state saved to auction_state.txt
+14582716 [SAVE] state saved to auction_state.txt
+14582716 [SHUTDOWN] saved state & exit
+14748413 [BOOT] loaded state: users=4 rooms=5 items=7
+14758656 [NET] accepted fd=7
+14769185 [AUTH] login uid=4 user=khai
+14796984 [ROOM] created rid=6 name=aaa
+14796988 [SAVE] state saved to auction_state.txt
+14823559 [SAVE] state saved to auction_state.txt
+14828370 [SAVE] state saved to auction_state.txt
+14838510 [NET] closed fd=7
+14845660 [NET] accepted fd=7
+14854234 [AUTH] login uid=2 user=buyer1
+14909260 [ROOM] ended rid=6 by=4
+14936464 [NET] closed fd=7
+14959028 [SAVE] state saved to auction_state.txt
+14959028 [SHUTDOWN] saved state & exit
+182133 [BOOT] loaded state: users=4 rooms=7 items=11
+369479 [NET] accepted fd=7
+386528 [AUTH] login uid=4 user=khai
+394236 [NET] accepted fd=8
+404839 [AUTH] login uid=2 user=buyer1
+412522 [NET] accepted fd=9
+421150 [AUTH] login uid=1 user=seller1
+468323 [ROOM] created rid=8 name=seller2
+468333 [SAVE] state saved to auction_state.txt
+599504 [SAVE] state saved to auction_state.txt
+620044 [SAVE] state saved to auction_state.txt
+682550 [SAVE] state saved to auction_state.txt
+742607 [ROOM] ended rid=8 by=1
+962605 [NET] closed fd=7
+965583 [NET] closed fd=8
+1076463 [NET] closed fd=9
+3177386 [SAVE] state saved to auction_state.txt
+3177386 [SHUTDOWN] saved state & exit
+52313 [BOOT] loaded state: users=4 rooms=8 items=13
+72168 [NET] accepted fd=7
+94835 [AUTH] login uid=2 user=buyer1
+96581 [NET] closed fd=7
+112432 [NET] accepted fd=7
+124191 [AUTH] login uid=2 user=buyer1
+125607 [NET] closed fd=7
+954869 [NET] accepted fd=7
+965682 [AUTH] login uid=4 user=khai
+967137 [NET] closed fd=7
+1379023 [NET] accepted fd=7
+1391047 [AUTH] login uid=4 user=khai
+1392521 [NET] closed fd=7
+1995398 [NET] accepted fd=7
+2007266 [AUTH] login uid=2 user=buyer1
+2008737 [NET] closed fd=7
+2101209 [NET] accepted fd=7
+2111568 [AUTH] login uid=4 user=khai
+2113028 [NET] closed fd=7
+3250599 [NET] accepted fd=7
+3256836 [NET] closed fd=7
+3258678 [NET] accepted fd=7
+3259905 [AUTH] login uid=2 user=buyer1
+3264412 [NET] closed fd=7
+3284034 [SAVE] state saved to auction_state.txt
+3284034 [SHUTDOWN] saved state & exit
+3289306 [BOOT] loaded state: users=4 rooms=8 items=13
+3300736 [NET] accepted fd=7
+3308217 [AUTH] login uid=2 user=buyer1
+3313352 [NET] closed fd=7
+3436805 [NET] accepted fd=7
+3443897 [AUTH] login uid=4 user=khai
+3447024 [NET] closed fd=7
+4360454 [SAVE] state saved to auction_state.txt
+4360454 [SHUTDOWN] saved state & exit
+4482050 [BOOT] loaded state: users=4 rooms=8 items=13
+4488180 [NET] accepted fd=7
+4495279 [AUTH] login uid=4 user=khai
+4510721 [ROOM] created rid=9 name=kahi
+4510730 [SAVE] state saved to auction_state.txt
+4565590 [SAVE] state saved to auction_state.txt
+4572452 [SAVE] state saved to auction_state.txt
+4622537 [ROOM] ended rid=9 by=4
+4629319 [NET] closed fd=7
+4919494 [NET] accepted fd=7
+4927562 [AUTH] login uid=4 user=khai
+4939679 [NET] closed fd=7
+4969281 [NET] accepted fd=7
+4970889 [AUTH] login uid=4 user=khai
+5060292 [NET] closed fd=7
+5447997 [NET] accepted fd=7
+5455611 [AUTH] login uid=4 user=khai
+5457693 [AUTH] logout uid=4
+5461690 [NET] closed fd=7
+12751093 [NET] accepted fd=7
+12759141 [AUTH] login uid=4 user=khai
+12798243 [AUTH] logout uid=4
+12800609 [NET] closed fd=7
+12956149 [SAVE] state saved to auction_state.txt
+12956149 [SHUTDOWN] saved state & exit
+6831968 [BOOT] loaded state: users=4 rooms=9 items=14
+6865573 [NET] accepted fd=7
+6871627 [NET] accepted fd=8
+6879247 [NET] closed fd=7
+6890578 [NET] accepted fd=7
+6892247 [AUTH] login uid=4 user=khai
+9695740 [SAVE] state saved to auction_state.txt
+9695740 [SHUTDOWN] saved state & exit
