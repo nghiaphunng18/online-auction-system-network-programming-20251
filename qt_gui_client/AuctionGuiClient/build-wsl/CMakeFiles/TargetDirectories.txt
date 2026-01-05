@@ -1,0 +1,5 @@
+/mnt/c/Users/ACER/Downloads/auction/qt_gui_client/AuctionGuiClient/build-wsl/CMakeFiles/AuctionGuiClient.dir
+/mnt/c/Users/ACER/Downloads/auction/qt_gui_client/AuctionGuiClient/build-wsl/CMakeFiles/edit_cache.dir
+/mnt/c/Users/ACER/Downloads/auction/qt_gui_client/AuctionGuiClient/build-wsl/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/ACER/Downloads/auction/qt_gui_client/AuctionGuiClient/build-wsl/CMakeFiles/AuctionGuiClient_autogen_timestamp_deps.dir
+/mnt/c/Users/ACER/Downloads/auction/qt_gui_client/AuctionGuiClient/build-wsl/CMakeFiles/AuctionGuiClient_autogen.dir

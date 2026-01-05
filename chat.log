@@ -5,3 +5,7 @@
 531998 room=8 from=seller1 to=buyer1 msg=meme
 554191 room=8 from=seller1 to=ROOM msg=hello
 4595406 room=9 from=khai to=ROOM msg=meem
+150651 room=10 from=seller1 to=khai msg=jhai
+169369 room=10 from=khai to=seller1 msg=kaja
+254676 room=10 from=seller1 to=ROOM msg=meme
+1129101 room=5 from=buyer1 to=ROOM msg=meme

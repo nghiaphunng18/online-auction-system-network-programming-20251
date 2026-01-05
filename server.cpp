@@ -17,6 +17,7 @@
 #include <deque>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -188,6 +189,93 @@ private:
         if (!chat_log_) return;
         chat_log_ << ts << " room=" << room_id << " from=" << from << " to=" << to << " msg=" << msg << "\n";
     }
+
+    // ===== Chat history (public room chat) =====
+    struct ChatHistRow {
+        long long ts = 0;
+        std::string from;
+        std::string msg;
+    };
+
+    static bool parse_chat_log_line(const std::string& line,
+                                    long long& ts,
+                                    int& room_id,
+                                    std::string& from,
+                                    std::string& to,
+                                    std::string& msg) {
+        // Expected format (from log_chat()):
+        // ts room=<rid> from=<from> to=<to> msg=<message...>
+        // Example:
+        // 1700000000000 room=2 from=alice to=ROOM msg=hello world
+
+        ts = 0;
+        room_id = 0;
+        from.clear();
+        to.clear();
+        msg.clear();
+
+        const std::string key = " msg=";
+        const size_t p = line.find(key);
+        if (p == std::string::npos) return false;
+
+        msg = line.substr(p + key.size());
+        std::string prefix = line.substr(0, p);
+
+        std::istringstream iss(prefix);
+        iss >> ts;
+        if (!iss || ts <= 0) return false;
+
+        std::string token;
+        while (iss >> token) {
+            if (token.rfind("room=", 0) == 0) {
+                int rid = 0;
+                if (!parse_int(token.substr(5), rid)) return false;
+                room_id = rid;
+            } else if (token.rfind("from=", 0) == 0) {
+                from = token.substr(5);
+            } else if (token.rfind("to=", 0) == 0) {
+                to = token.substr(3);
+            }
+        }
+
+        return room_id > 0 && !from.empty() && !to.empty();
+    }
+
+    std::vector<ChatHistRow> load_room_public_chat(int room_id, int limit) {
+        std::vector<ChatHistRow> out;
+        if (limit <= 0) return out;
+        if (limit > 1000) limit = 1000;
+
+        // Ensure newest logs are in file
+        if (chat_log_) chat_log_.flush();
+
+        std::ifstream in("chat.log");
+        if (!in) return out;
+
+        std::string line;
+        std::deque<ChatHistRow> dq; // keep last N
+
+        while (std::getline(in, line)) {
+            long long ts = 0;
+            int rid = 0;
+            std::string from, to, msg;
+            if (!parse_chat_log_line(line, ts, rid, from, to, msg)) continue;
+            if (rid != room_id) continue;
+            if (to != "ROOM") continue; // only public room chat
+
+            ChatHistRow row;
+            row.ts = ts;
+            row.from = from;
+            row.msg = msg;
+
+            dq.push_back(std::move(row));
+            if ((int)dq.size() > limit) dq.pop_front();
+        }
+
+        out.assign(dq.begin(), dq.end());
+        return out;
+    }
+
 
 
     void save_state() {
@@ -805,7 +893,7 @@ private:
             return reply(s, "EVT ROOMS_END\n");
         }
 
-        // Get participant usernames of a room by id (for Rooms tab quick-chat)
+                        // Get participant usernames of a room by id (for Rooms tab quick-chat)
         // ROOM_USERS <room_id>
         if (cmd == "ROOM_USERS") {
             if (toks.size() < 2) return err(s, "INVALID", "Usage: ROOM_USERS <room_id>");
@@ -816,6 +904,60 @@ private:
             reply(s, "OK ROOM_USERS\n");
             return reply(s, build_room_users_line(rid));
         }
+
+        // Owner can view ended items of a room without joining (useful for ENDED rooms).
+        // ROOM_VIEW_ENDED <room_id>
+        if (cmd == "ROOM_VIEW_ENDED") {
+            if (toks.size() < 2) return err(s, "INVALID", "Usage: ROOM_VIEW_ENDED <room_id>");
+            int rid = 0;
+            if (!parse_int(toks[1], rid)) return err(s, "INVALID", "room_id must be a number");
+            if (!rooms_.count(rid)) return err(s, "ROOM_NOT_FOUND", "No such room");
+
+            auto& r = rooms_[rid];
+            if (r.status != RoomStatus::ENDED) return err(s, "ROOM_NOT_ENDED", "Room is not ended");
+            if (r.owner_user_id != s.user_id) return err(s, "FORBIDDEN", "Only room owner can view ended queue");
+
+            int n = 0;
+            for (auto& h : history_) if (h.room_id == rid) n++;
+
+            reply(s, "OK VIEW_ENDED " + to_string(n) + "\n");
+            for (auto& h : history_) {
+                if (h.room_id != rid) continue;
+                string winner = h.winner_user_id ? username_of(h.winner_user_id) : "none";
+                string status = (h.winner_user_id ? "SOLD" : "EXPIRED");
+                reply(s, "EVT ENDED " + to_string(h.item_id) + " " + status + " " + winner + " " +
+                         to_string(h.final_price) + " " + h.reason + " " + to_string(h.end_at_ms) + "\n");
+            }
+            return reply(s, "EVT ENDED_END\n");
+        }
+
+        // Owner can view public chat history of an ENDED room without joining.
+        // ROOM_VIEW_CHAT <room_id> [limit]
+        if (cmd == "ROOM_VIEW_CHAT") {
+            if (toks.size() < 2) return err(s, "INVALID", "Usage: ROOM_VIEW_CHAT <room_id> [limit]");
+            int rid = 0;
+            if (!parse_int(toks[1], rid)) return err(s, "INVALID", "room_id must be a number");
+            if (!rooms_.count(rid)) return err(s, "ROOM_NOT_FOUND", "No such room");
+
+            int limit = 200;
+            if (toks.size() >= 3) {
+                int x = 0;
+                if (parse_int(toks[2], x) && x > 0) limit = x;
+            }
+
+            auto& r = rooms_[rid];
+            if (r.status != RoomStatus::ENDED) return err(s, "ROOM_NOT_ENDED", "Room is not ended");
+            if (r.owner_user_id != s.user_id) return err(s, "FORBIDDEN", "Only room owner can view chat history");
+
+            auto rows = load_room_public_chat(rid, limit);
+
+            reply(s, "OK VIEW_CHAT " + to_string((int)rows.size()) + "\n");
+            for (auto& row : rows) {
+                reply(s, "EVT ROOM_CHAT " + to_string(row.ts) + " " + row.from + "|" + row.msg + "\n");
+            }
+            return reply(s, "EVT ROOM_CHAT_END\n");
+        }
+
 
         if (cmd == "CREATE_ROOM") {
             string name = trim(line.substr(toks[0].size()));
@@ -954,7 +1096,7 @@ private:
                 return err(s, "INVALID_ITEM_FORMAT", "start/buy_now/duration must be numbers");
             if (start <= 0) return err(s, "INVALID_PRICE", "start must be > 0");
             if (dur < 10) return err(s, "INVALID_PRICE", "duration must be >= 10s");
-            if (buy != 0 && buy < start) return err(s, "INVALID_PRICE", "buy_now must be 0 or >= start");
+            if (buy != 0 && buy < 2 * start) return err(s, "INVALID_PRICE", "buy_now must be 0 or >= 2x start");
 
             DraftKey dk{rid, s.user_id};
             auto& vec = drafts_[dk];
@@ -1030,11 +1172,11 @@ private:
                 int v=0; if (!parse_int(value, v)) return err(s, "INVALID", "start must be number");
                 if (v <= 0) return err(s, "INVALID_PRICE", "start must be > 0");
                 d->start_price = v;
-                if (d->buy_now_price != 0 && d->buy_now_price < d->start_price)
-                    return err(s, "INVALID_PRICE", "buy_now must be 0 or >= start");
+                if (d->buy_now_price != 0 && d->buy_now_price < 2 * d->start_price)
+                    return err(s, "INVALID_PRICE", "buy_now must be 0 or >= 2x start");
             } else if (field == "buy_now" || field == "buynow") {
                 int v=0; if (!parse_int(value, v)) return err(s, "INVALID", "buy_now must be number");
-                if (v != 0 && v < d->start_price) return err(s, "INVALID_PRICE", "buy_now must be 0 or >= start");
+                if (v != 0 && v < 2 * d->start_price) return err(s, "INVALID_PRICE", "buy_now must be 0 or >= 2x start");
                 d->buy_now_price = v;
             } else if (field == "duration") {
                 int v=0; if (!parse_int(value, v)) return err(s, "INVALID", "duration must be number");
@@ -1283,6 +1425,8 @@ private:
             if (rooms_[itx.room_id].status != RoomStatus::STARTED)
                 return err(s, "ROOM_NOT_STARTED", "Room is not started");
             if (itx.buy_now_price <= 0) return err(s, "BUY_NOW_NOT_AVAILABLE", "No buy_now");
+            if (itx.current_price >= itx.buy_now_price)
+                return err(s, "BUY_NOW_DISABLED", "Current price already reached buy_now");
 
             int rid = users_[s.user_id].current_room_id;
             if (!rid || rid != itx.room_id) return err(s, "NOT_IN_ROOM", "Join the room of this item");
