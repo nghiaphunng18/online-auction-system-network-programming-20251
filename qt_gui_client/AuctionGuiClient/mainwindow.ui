@@ -1,0 +1,1168 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ui version="4.0">
+ <class>MainWindow</class>
+<widget class="QMainWindow" name="MainWindow">
+  <property name="windowTitle">
+   <string>Ứng dụng đấu giá (Qt)</string>
+  </property>
+ <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <widget class="QWidget" name="pageConnect">
+       <layout class="QVBoxLayout" name="vConnect">
+        <item>
+         <widget class="QLabel" name="lblTitleConnect">
+          <property name="text">
+           <string>&lt;h2&gt;Kết nối tới máy chủ đấu giá&lt;/h2&gt;</string>
+          </property>
+         </widget>
+        </item>
+       <item>
+         <layout class="QFormLayout" name="formConnect">
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblHost">
+            <property name="text">
+             <string>Máy chủ</string>
+            </property>
+           </widget>
+          </item>
+         <item row="0" column="1">
+           <widget class="QLineEdit" name="edtHost">
+            <property name="text">
+             <string>127.0.0.1</string>
+            </property>
+           </widget>
+          </item>
+         <item row="1" column="0">
+           <widget class="QLabel" name="lblPort">
+            <property name="text">
+             <string>Cổng</string>
+            </property>
+           </widget>
+          </item>
+         <item row="1" column="1">
+           <widget class="QSpinBox" name="spinPort">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+           <property name="maximum">
+             <number>65535</number>
+            </property>
+           <property name="value">
+             <number>5555</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       <item>
+         <layout class="QHBoxLayout" name="hConnectBtns">
+          <item>
+           <widget class="QPushButton" name="btnConnect">
+            <property name="text">
+             <string>Kết nối</string>
+            </property>
+           </widget>
+          </item>
+         <item>
+           <widget class="QPushButton" name="btnDisconnect">
+            <property name="text">
+             <string>Ngắt kết nối</string>
+            </property>
+           </widget>
+          </item>
+         <item>
+           <spacer name="spConnect">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           <property name="sizeHint" stdset="0">
+             <size>
+              <width>200</width>
+             <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       <item>
+         <widget class="QLabel" name="lblConnStatus">
+          <property name="text">
+           <string>Trạng thái: Chưa kết nối</string>
+          </property>
+         </widget>
+        </item>
+       <item>
+         <spacer name="spConnectBottom">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+           <height>200</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     <widget class="QWidget" name="pageLogin">
+       <layout class="QVBoxLayout" name="vLogin">
+        <item>
+         <widget class="QLabel" name="lblTitleLogin">
+          <property name="text">
+           <string>&lt;h2&gt;Đăng nhập&lt;/h2&gt;</string>
+          </property>
+         </widget>
+        </item>
+       <item>
+         <layout class="QFormLayout" name="formLogin">
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblUser">
+            <property name="text">
+             <string>Tên đăng nhập</string>
+            </property>
+           </widget>
+          </item>
+         <item row="0" column="1">
+           <widget class="QLineEdit" name="edtUser" />
+          </item>
+         <item row="1" column="0">
+           <widget class="QLabel" name="lblPass">
+            <property name="text">
+             <string>Mật khẩu</string>
+            </property>
+           </widget>
+          </item>
+         <item row="1" column="1">
+           <widget class="QLineEdit" name="edtPass">
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       <item>
+         <layout class="QHBoxLayout" name="hLoginBtns">
+          <item>
+           <widget class="QPushButton" name="btnLogin">
+            <property name="text">
+             <string>Đăng nhập</string>
+            </property>
+           </widget>
+          </item>
+         <item>
+           <widget class="QPushButton" name="btnBackToConnect">
+            <property name="text">
+             <string>Quay lại</string>
+            </property>
+           </widget>
+          </item>
+         <item>
+           <spacer name="spLogin">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           <property name="sizeHint" stdset="0">
+             <size>
+              <width>200</width>
+             <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       <item>
+         <widget class="QLabel" name="lblAuthStatus">
+          <property name="text">
+           <string>Trạng thái: Chưa đăng nhập</string>
+          </property>
+         </widget>
+        </item>
+       <item>
+         <spacer name="spLoginBottom">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+           <height>200</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     <widget class="QWidget" name="pageRooms">
+       <layout class="QVBoxLayout" name="vRooms">
+        <item>
+         <layout class="QHBoxLayout" name="hHomeHeader">
+          <item>
+           <widget class="QLabel" name="lblTitleRooms">
+            <property name="text">
+             <string>&lt;h2&gt;Trang chủ đấu giá&lt;/h2&gt;</string>
+            </property>
+           </widget>
+          </item>
+         <item>
+           <spacer name="spHomeHeader">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           <property name="sizeHint" stdset="0">
+             <size>
+              <width>200</width>
+             <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         <item>
+           <widget class="QLabel" name="lblUserInfo">
+            <property name="text">
+             <string>Xin chào: - (vai trò: -)</string>
+            </property>
+           </widget>
+          </item>
+         <item>
+           <widget class="QPushButton" name="btnLogout">
+            <property name="text">
+             <string>Đăng xuất</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       <item>
+         <widget class="QTabWidget" name="tabHome">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+         <widget class="QWidget" name="tabRooms">
+           <attribute name="title">
+            <string>Phòng đấu giá</string>
+           </attribute>
+          <layout class="QHBoxLayout" name="hRoomsBody">
+            <item>
+             <layout class="QVBoxLayout" name="vRoomsLeft">
+              <item>
+               <layout class="QHBoxLayout" name="hRoomsTools">
+                <item>
+                 <widget class="QLineEdit" name="edtRoomSearch">
+                  <property name="placeholderText">
+                   <string>Tìm phòng (theo tên / mã / chủ phòng)...</string>
+                  </property>
+                 </widget>
+                </item>
+               <item>
+                 <widget class="QComboBox" name="cmbRoomScope">
+                  <item>
+                   <property name="text">
+                    <string>Tất cả phòng</string>
+                   </property>
+                  </item>
+                 <item>
+                   <property name="text">
+                    <string>Phòng của tôi</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               <item>
+                 <widget class="QComboBox" name="cmbRoomStatus">
+                  <item>
+                   <property name="text">
+                    <string>Tất cả trạng thái</string>
+                   </property>
+                  </item>
+                 <item>
+                   <property name="text">
+                    <string>Chờ</string>
+                   </property>
+                  </item>
+                 <item>
+                   <property name="text">
+                    <string>Đang đấu giá</string>
+                   </property>
+                  </item>
+                 <item>
+                   <property name="text">
+                    <string>Đã kết thúc</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               <item>
+                 <widget class="QPushButton" name="btnRefreshRooms">
+                  <property name="text">
+                   <string>Làm mới</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             <item>
+               <widget class="QTableWidget" name="tblRooms">
+                <property name="alternatingRowColors">
+                 <bool>true</bool>
+                </property>
+               <property name="selectionBehavior">
+                 <enum>QAbstractItemView::SelectRows</enum>
+                </property>
+               <property name="selectionMode">
+                 <enum>QAbstractItemView::SingleSelection</enum>
+                </property>
+               <property name="editTriggers">
+                 <set>QAbstractItemView::NoEditTriggers</set>
+                </property>
+               <property name="rowCount">
+                 <number>0</number>
+                </property>
+               <property name="columnCount">
+                 <number>5</number>
+                </property>
+               <column>
+                 <property name="text">
+                  <string>Mã</string>
+                 </property>
+                </column>
+               <column>
+                 <property name="text">
+                  <string>Tên phòng</string>
+                 </property>
+                </column>
+               <column>
+                 <property name="text">
+                  <string>Trạng thái</string>
+                 </property>
+                </column>
+               <column>
+                 <property name="text">
+                  <string>Người trong phòng</string>
+                 </property>
+                </column>
+               <column>
+                 <property name="text">
+                  <string>Chủ phòng</string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           <item>
+             <layout class="QVBoxLayout" name="vRoomsRight">
+              <item>
+               <widget class="QGroupBox" name="grpQuickActions">
+                <property name="title">
+                 <string>Thao tác nhanh</string>
+                </property>
+               <layout class="QVBoxLayout" name="vQuick">
+                 <item>
+                  <layout class="QHBoxLayout" name="hCreate">
+                   <item>
+                    <widget class="QLineEdit" name="edtCreateRoom">
+                     <property name="placeholderText">
+                      <string>Nhập tên phòng để tạo</string>
+                     </property>
+                    </widget>
+                   </item>
+                  <item>
+                    <widget class="QPushButton" name="btnCreateRoom">
+                     <property name="text">
+                      <string>Tạo phòng</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                <item>
+                  <layout class="QHBoxLayout" name="hJoin">
+                   <item>
+                    <widget class="QLineEdit" name="edtJoinRoomId">
+                     <property name="placeholderText">
+                      <string>Mã phòng hoặc tên phòng để tham gia</string>
+                     </property>
+                    </widget>
+                   </item>
+                  <item>
+                    <widget class="QPushButton" name="btnJoinRoom">
+                     <property name="text">
+                      <string>Tham gia</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                <item>
+                  <layout class="QHBoxLayout" name="hJoinSelectedRow">
+                   <item>
+                    <widget class="QPushButton" name="btnJoinSelected">
+                     <property name="text">
+                      <string>Tham gia phòng đang chọn</string>
+                     </property>
+                    </widget>
+                   </item>
+                  <item>
+                    <widget class="QPushButton" name="btnOpenHistory">
+                     <property name="text">
+                      <string>Xem lịch sử</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             <item>
+               <widget class="QGroupBox" name="grpRoomDetails">
+                <property name="title">
+                 <string>Phòng đang chọn</string>
+                </property>
+               <layout class="QVBoxLayout" name="vSelRoom">
+                <item>
+                 <layout class="QFormLayout" name="formRoomDetails">
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="lblSelIdTitle">
+                    <property name="text">
+                     <string>Mã</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QLabel" name="lblSelRoomId">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="lblSelNameTitle">
+                    <property name="text">
+                     <string>Tên</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QLabel" name="lblSelRoomName">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="lblSelStatusTitle">
+                    <property name="text">
+                     <string>Trạng thái</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QLabel" name="lblSelRoomStatus">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="lblSelPartTitle">
+                    <property name="text">
+                     <string>Người tham gia</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QLabel" name="lblSelRoomParticipants">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="lblSelOwnerTitle">
+                    <property name="text">
+                     <string>Chủ phòng</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="QLabel" name="lblSelRoomOwner">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QFrame" name="lineSelRoomUsers">
+                  <property name="frameShape">
+                   <enum>QFrame::HLine</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Sunken</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lblSelRoomUsersTitle">
+                  <property name="text">
+                   <string>Người dùng (để chat)</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="edtSelRoomUserSearch">
+                  <property name="placeholderText">
+                   <string>Tìm người dùng...</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QListWidget" name="lstSelRoomUsers">
+                  <property name="minimumHeight">
+                   <number>120</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lblSelRoomUsersHint">
+                  <property name="text">
+                   <string>Nhấp đúp người dùng để mở chat</string>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+               </widget>
+              </item>
+             <item>
+               <widget class="QLabel" name="lblRoomsStatus">
+                <property name="text">
+                 <string>Trạng thái: -</string>
+                </property>
+               <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             <item>
+               <spacer name="spRoomsRightBottom">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+               <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                 <height>120</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         <widget class="QWidget" name="tabHistory">
+           <attribute name="title">
+            <string>Lịch sử</string>
+           </attribute>
+          <layout class="QVBoxLayout" name="vHistory">
+            <item>
+             <layout class="QHBoxLayout" name="hHistTools">
+              <item>
+               <widget class="QPushButton" name="btnRefreshHistory">
+                <property name="text">
+                 <string>Làm mới lịch sử</string>
+                </property>
+               </widget>
+              </item>
+             <item>
+               <spacer name="spHistTools">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>200</width>
+                 <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             <item>
+               <widget class="QLineEdit" name="edtHistSearch">
+                <property name="placeholderText">
+                 <string>Tìm trong lịch sử (phòng / vật phẩm)...</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           <item>
+             <widget class="QTableWidget" name="tblHistory">
+              <property name="editTriggers">
+               <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+              </property>
+              <property name="alternatingRowColors">
+               <bool>true</bool>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+              </property>
+              <property name="rowCount">
+               <number>0</number>
+              </property>
+              <property name="columnCount">
+               <number>8</number>
+              </property>
+              <column>
+               <property name="text">
+                <string>Thời gian</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Phòng</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Vật phẩm</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Vai trò</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Người bán</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Người thắng</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Giá</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Lý do</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+           <item>
+             <widget class="QLabel" name="lblHistoryStatus">
+              <property name="text">
+               <string>Trạng thái: -</string>
+              </property>
+             <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         <widget class="QWidget" name="tabChat"><attribute name="title"><string>Trò chuyện</string></attribute><layout class="QHBoxLayout" name="hChat"><item><widget class="QGroupBox" name="grpChatUsers"><property name="title"><string>Người dùng (trong phòng)</string></property><layout class="QVBoxLayout" name="vChatUsers"><item><layout class="QHBoxLayout" name="hChatUserTools"><item><widget class="QPushButton" name="btnChatUsers"><property name="text"><string>Cập nhật</string></property></widget></item><item><spacer name="spChatUsers"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint"><size><width>40</width><height>20</height></size></property></spacer></item></layout></item><item><widget class="QListWidget" name="lstChatUsers"><property name="minimumWidth"><number>200</number></property></widget></item></layout></widget></item><item><widget class="QGroupBox" name="grpChatBox"><property name="title"><string>Tin nhắn</string></property><layout class="QVBoxLayout" name="vChatBox"><item><widget class="QLabel" name="lblChatPeer"><property name="text"><string>Đang chat với: -</string></property></widget></item><item><widget class="QPlainTextEdit" name="txtChat"><property name="readOnly"><bool>true</bool></property><property name="minimumHeight"><number>260</number></property></widget></item><item><layout class="QHBoxLayout" name="hChatInput"><item><widget class="QLineEdit" name="edtChatMsg"><property name="placeholderText"><string>Nhập tin nhắn...</string></property></widget></item><item><widget class="QPushButton" name="btnChatSend"><property name="text"><string>Gửi</string></property></widget></item></layout></item></layout></widget></item></layout></widget></widget>
+        </item>
+       </layout>
+      </widget>
+     <widget class="QWidget" name="pageRoom">
+       <layout class="QVBoxLayout" name="vRoom">
+        <item><widget class="QGroupBox" name="grpRoomUsers"><property name="title"><string>Người trong phòng</string></property><layout class="QVBoxLayout" name="vRoomUsers"><item><layout class="QHBoxLayout" name="hRoomUsersTools"><item><widget class="QPushButton" name="btnRefreshChatUsers"><property name="text"><string>Cập nhật</string></property></widget></item><item><widget class="QLabel" name="lblRoomUsersHint"><property name="text"><string>Nhấp đúp người dùng để chat</string></property></widget></item><item><spacer name="spRoomUsers"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint"><size><width>40</width><height>20</height></size></property></spacer></item></layout></item><item><widget class="QListWidget" name="lstRoomUsers"><property name="minimumHeight"><number>90</number></property></widget></item></layout></widget></item><item>
+         <layout class="QHBoxLayout" name="hRoomHeader">
+          <item>
+           <widget class="QLabel" name="lblRoomTitle">
+            <property name="text">
+             <string>Phòng: (chưa tham gia)</string>
+            </property>
+           </widget>
+          </item>
+         <item>
+           <spacer name="spRoomHeader">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           <property name="sizeHint" stdset="0">
+             <size>
+              <width>200</width>
+             <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         <item>
+           <widget class="QPushButton" name="btnLeaveRoom">
+            <property name="text">
+             <string>Rời phòng</string>
+            </property>
+           </widget>
+          </item>
+         <item>
+           <widget class="QPushButton" name="btnStartRoom">
+            <property name="text">
+             <string>Bắt đầu</string>
+            </property>
+           </widget>
+          </item>
+         <item>
+           <widget class="QPushButton" name="btnEndRoom">
+            <property name="text">
+             <string>Kết thúc</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       <item>
+         <layout class="QHBoxLayout" name="hRoomMain">
+          <item>
+           <layout class="QVBoxLayout" name="vLeft">
+            <item>
+             <widget class="QGroupBox" name="grpCurrent">
+              <property name="title">
+               <string>Đấu giá hiện tại</string>
+              </property>
+             <layout class="QFormLayout" name="formCurrent">
+               <item row="0" column="0">
+                <widget class="QLabel" name="lblItemNameTitle">
+                 <property name="text">
+                  <string>Vật phẩm</string>
+                 </property>
+                </widget>
+               </item>
+              <item row="0" column="1">
+                <widget class="QLabel" name="lblItemName">
+                 <property name="text">
+                  <string>KHÔNG CÓ</string>
+                 </property>
+                </widget>
+               </item>
+              <item row="1" column="0">
+                <widget class="QLabel" name="lblItemSellerTitle">
+                 <property name="text">
+                  <string>Người bán</string>
+                 </property>
+                </widget>
+               </item>
+              <item row="1" column="1">
+                <widget class="QLabel" name="lblItemSeller">
+                 <property name="text">
+                  <string>-</string>
+                 </property>
+                </widget>
+               </item>
+              <item row="2" column="0">
+                <widget class="QLabel" name="lblItemStartTitle">
+                 <property name="text">
+                  <string>Giá khởi điểm</string>
+                 </property>
+                </widget>
+               </item>
+              <item row="2" column="1">
+                <widget class="QLabel" name="lblItemStart">
+                 <property name="text">
+                  <string>-</string>
+                 </property>
+                </widget>
+               </item>
+              <item row="3" column="0">
+                <widget class="QLabel" name="lblItemBuyNowTitle">
+                 <property name="text">
+                  <string>Mua ngay</string>
+                 </property>
+                </widget>
+               </item>
+              <item row="3" column="1">
+                <widget class="QLabel" name="lblItemBuyNow">
+                 <property name="text">
+                  <string>-</string>
+                 </property>
+                </widget>
+               </item>
+              <item row="4" column="0">
+                <widget class="QLabel" name="lblItemPriceTitle">
+                 <property name="text">
+                  <string>Hiện tại</string>
+                 </property>
+                </widget>
+               </item>
+              <item row="4" column="1">
+                <widget class="QLabel" name="lblItemPrice">
+                 <property name="text">
+                  <string>-</string>
+                 </property>
+                </widget>
+               </item>
+              <item row="5" column="0">
+                <widget class="QLabel" name="lblItemLeaderTitle">
+                 <property name="text">
+                  <string>Người dẫn đầu</string>
+                 </property>
+                </widget>
+               </item>
+              <item row="5" column="1">
+                <widget class="QLabel" name="lblItemLeader">
+                 <property name="text">
+                  <string>-</string>
+                 </property>
+                </widget>
+               </item>
+              <item row="6" column="0">
+                <widget class="QLabel" name="lblItemTimeTitle">
+                 <property name="text">
+                  <string>Thời gian còn lại</string>
+                 </property>
+                </widget>
+               </item>
+              <item row="6" column="1">
+                <widget class="QLabel" name="lblItemTime">
+                 <property name="text">
+                  <string>-</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           <item>
+             <widget class="QLabel" name="lblMinBid">
+              <property name="text">
+               <string>Giá tối thiểu: -</string>
+              </property>
+             </widget>
+            </item>
+           <item>
+             <layout class="QHBoxLayout" name="hBidRow">
+              <item>
+               <widget class="QLineEdit" name="edtBidAmount">
+                <property name="placeholderText">
+                 <string>Số tiền đặt giá</string>
+                </property>
+               </widget>
+              </item>
+             <item>
+               <widget class="QPushButton" name="btnBid">
+                <property name="text">
+                 <string>Đặt giá</string>
+                </property>
+               </widget>
+              </item>
+             <item>
+               <widget class="QPushButton" name="btnBuyNow">
+                <property name="text">
+                 <string>Mua ngay</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           <item>
+             <widget class="QLabel" name="lblRoomStatus">
+              <property name="text">
+               <string>Trạng thái: -</string>
+              </property>
+             </widget>
+            </item>
+           <item>
+             <widget class="QPlainTextEdit" name="txtLog">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         <item>
+           <layout class="QVBoxLayout" name="vRight">
+            <item>
+             <widget class="QGroupBox" name="grpQueue">
+              <property name="title">
+               <string>Hàng chờ</string>
+              </property>
+             <layout class="QVBoxLayout" name="vQueue">
+               <item>
+                <widget class="QTableWidget" name="tblQueue">
+                 <property name="rowCount">
+                  <number>0</number>
+                 </property>
+                <property name="columnCount">
+                  <number>5</number>
+                 </property>
+                <column>
+                  <property name="text">
+                   <string>Mã</string>
+                  </property>
+                 </column>
+                <column>
+                  <property name="text">
+                   <string>Tên</string>
+                  </property>
+                 </column>
+                <column>
+                  <property name="text">
+                   <string>Giá khởi điểm</string>
+                  </property>
+                 </column>
+                <column>
+                  <property name="text">
+                   <string>Mua ngay</string>
+                  </property>
+                 </column>
+                <column>
+                  <property name="text">
+                   <string>Thời lượng</string>
+                  </property>
+                 </column>
+                </widget>
+               </item>
+              <item>
+                <layout class="QHBoxLayout" name="hQueueBtns">
+                 <item>
+                  <widget class="QPushButton" name="btnViewQueued">
+                   <property name="text">
+                    <string>Xem hàng chờ</string>
+                   </property>
+                  </widget>
+                 </item>
+                <item>
+                  <spacer name="spQueueBtns">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                    <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           <item>
+             <widget class="QGroupBox" name="grpDraft">
+              <property name="title">
+               <string>Nháp người bán</string>
+              </property>
+             <layout class="QVBoxLayout" name="vDraft">
+               <item>
+                <layout class="QHBoxLayout" name="hDraftAdd">
+                 <item>
+                  <widget class="QLineEdit" name="edtDraftName">
+                   <property name="placeholderText">
+                    <string>tên (không khoảng trắng)</string>
+                   </property>
+                  </widget>
+                 </item>
+                <item>
+                  <widget class="QLineEdit" name="edtDraftStart">
+                   <property name="placeholderText">
+                    <string>giá khởi điểm</string>
+                   </property>
+                  </widget>
+                 </item>
+                <item>
+                  <widget class="QLineEdit" name="edtDraftBuy">
+                   <property name="placeholderText">
+                    <string>mua ngay (0)</string>
+                   </property>
+                  </widget>
+                 </item>
+                <item>
+                  <widget class="QLineEdit" name="edtDraftDur">
+                   <property name="placeholderText">
+                    <string>thời lượng (giây)</string>
+                   </property>
+                  </widget>
+                 </item>
+                <item>
+                  <widget class="QPushButton" name="btnAddDraft">
+                   <property name="text">
+                    <string>Thêm vật phẩm</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              <item>
+                <widget class="QTableWidget" name="tblDraft">
+                 <property name="rowCount">
+                  <number>0</number>
+                 </property>
+                <property name="columnCount">
+                  <number>6</number>
+                 </property>
+                <column>
+                  <property name="text">
+                   <string>Mã nháp</string>
+                  </property>
+                 </column>
+                <column>
+                  <property name="text">
+                   <string>Tên</string>
+                  </property>
+                 </column>
+                <column>
+                  <property name="text">
+                   <string>Giá khởi điểm</string>
+                  </property>
+                 </column>
+                <column>
+                  <property name="text">
+                   <string>Mua ngay</string>
+                  </property>
+                 </column>
+                <column>
+                  <property name="text">
+                   <string>Thời lượng</string>
+                  </property>
+                 </column>
+                <column>
+                  <property name="text">
+                   <string>Xóa</string>
+                  </property>
+                 </column>
+                </widget>
+               </item>
+              <item>
+                <layout class="QHBoxLayout" name="hDraftBtns">
+                 <item>
+                  <widget class="QPushButton" name="btnDraftList">
+                   <property name="text">
+                    <string>Xem danh sách nháp</string>
+                   </property>
+                  </widget>
+                 </item>
+                <item>
+                  <widget class="QPushButton" name="btnPublishOk">
+                   <property name="text">
+                    <string>OK (Bắt đầu đấu giá)</string>
+                   </property>
+                  </widget>
+                 </item>
+                <item>
+                  <spacer name="spDraftBtns">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                    <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+              <widget class="QGroupBox" name="grpEnded">
+               <property name="title">
+                <string>Vật phẩm đã kết thúc</string>
+               </property>
+              <layout class="QVBoxLayout" name="vEnded">
+                <item>
+                 <widget class="QTableWidget" name="tblEnded">
+                  <property name="rowCount">
+                   <number>0</number>
+                  </property>
+                 <property name="columnCount">
+                   <number>6</number>
+                  </property>
+                 <column>
+                   <property name="text">
+                    <string>Mã vật phẩm</string>
+                   </property>
+                  </column>
+                 <column>
+                   <property name="text">
+                    <string>Trạng thái</string>
+                   </property>
+                  </column>
+                 <column>
+                   <property name="text">
+                    <string>Người thắng</string>
+                   </property>
+                  </column>
+                 <column>
+                   <property name="text">
+                    <string>Giá cuối</string>
+                   </property>
+                  </column>
+                 <column>
+                   <property name="text">
+                    <string>Lý do</string>
+                   </property>
+                  </column>
+                 <column>
+                   <property name="text">
+                    <string>Kết thúc lúc</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+               <item>
+                 <layout class="QHBoxLayout" name="hEndedBtns">
+                  <item>
+                   <widget class="QPushButton" name="btnViewEnded">
+                    <property name="text">
+                     <string>Xem đã kết thúc</string>
+                    </property>
+                   </widget>
+                  </item>
+                 <item>
+                   <spacer name="spEndedBtns">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                     <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ <widget class="QStatusBar" name="statusbar" />
+ </widget>
+<resources />
+<connections />
+</ui>

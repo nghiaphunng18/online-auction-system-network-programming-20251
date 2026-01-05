@@ -1,0 +1,11 @@
+# ninja log v5
+111	1447	1767598224117326200	AuctionGuiClient_autogen/timestamp	56124dc5cf9ccda8
+111	1447	1767598224117326200	AuctionGuiClient_autogen/mocs_compilation.cpp	56124dc5cf9ccda8
+111	1447	1767598224117326200	/mnt/c/Users/ACER/Downloads/auction/qt_gui_client/AuctionGuiClient/build-wsl/AuctionGuiClient_autogen/timestamp	56124dc5cf9ccda8
+111	1447	1767598224117326200	/mnt/c/Users/ACER/Downloads/auction/qt_gui_client/AuctionGuiClient/build-wsl/AuctionGuiClient_autogen/mocs_compilation.cpp	56124dc5cf9ccda8
+1480	4715	1767598227597488700	CMakeFiles/AuctionGuiClient.dir/socketclient.cpp.o	4c692cdcb4c58d9d
+1471	5546	1767598228354639000	CMakeFiles/AuctionGuiClient.dir/main.cpp.o	3dd4fc27a83b129a
+1466	5831	1767598228613176400	CMakeFiles/AuctionGuiClient.dir/AuctionGuiClient_autogen/mocs_compilation.cpp.o	80f055b7f768bf54
+1483	6134	1767598228891727900	CMakeFiles/AuctionGuiClient.dir/authwindow.cpp.o	fcfa46483f3e4640
+1475	8549	1767598231527972000	CMakeFiles/AuctionGuiClient.dir/mainwindow.cpp.o	7d9678abf5695834
+8570	12009	1767598234676992500	AuctionGuiClient	aa29a76e69ba08dc
