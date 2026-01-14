@@ -871,7 +871,40 @@
                 </property>
                </widget>
               </item>
+             
+           <item>
+             <layout class="QHBoxLayout" name="hAutoBidRow">
+              <item>
+               <widget class="QCheckBox" name="chkAutoBid">
+                <property name="text">
+                 <string>Auto-bid</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="edtAutoBidMax">
+                <property name="placeholderText">
+                 <string>Giá tối đa</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btnAutoBidApply">
+                <property name="text">
+                 <string>Bật</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btnAutoBidOff">
+                <property name="text">
+                 <string>Tắt</string>
+                </property>
+               </widget>
+              </item>
              </layout>
+            </item>
+</layout>
             </item>
            <item>
              <widget class="QLabel" name="lblRoomStatus">

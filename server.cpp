@@ -142,6 +142,15 @@ private:
     vector<HistoryRow> history_;
     unordered_map<DraftKey, vector<DraftItem>, DraftKeyHash, DraftKeyEq> drafts_;
 
+
+    // auto-bid (server-side proxy bidding)
+    struct AutoBidCfg {
+        int room_id = 0;
+        int item_id = 0;   // bind to running item id when enabled
+        int max_price = 0; // user max willing to pay
+    };
+    unordered_map<int, AutoBidCfg> autobid_by_user_; // key: user_id
+
     int next_user_id_ = 1;
     int next_room_id_ = 1;
     int next_item_id_ = 1;
@@ -534,7 +543,7 @@ private:
         reply(s, "EVT HELP AUTH: REGISTER <u> <p> | LOGIN <u> <p> | LOGOUT | QUIT\n");
         reply(s, "EVT HELP ROOM: LIST_ROOMS | LIST_MY_ROOMS | CREATE_ROOM <name> | JOIN_ROOM <id_or_name> | LEAVE_ROOM\n");
         reply(s, "EVT HELP SELLER: ADD_ITEM name|start|buy_now|duration | DRAFT_LIST | EDIT_ITEM d|field|value | REMOVE_ITEM d | CLEAR_DRAFT | OK | START | END\n");
-        reply(s, "EVT HELP BUYER: BID <item_id> <amount> | BUY_NOW <item_id>\n");
+        reply(s, "EVT HELP BUYER: BID <item_id> <amount> | BUY_NOW <item_id> | AUTO_BID <max> | AUTO_BID_OFF\n");
         reply(s, "EVT HELP VIEW: VIEW RUNNING|QUEUED|ENDED | SEARCH <keyword> | HISTORY ME\n");
         reply(s, "EVT HELP CHAT: CHAT_USERS | CHAT_TO <user>|<msg> | CHAT_ROOM |<msg>\n");
         reply(s, "EVT HELP ADMIN: SAVE (force save)\n");
@@ -559,6 +568,8 @@ private:
     }
 
     void leave_room(int uid, int rid, bool silent_reply, Session* ps) {
+
+        clear_autobid(uid);
         auto it = rooms_.find(rid);
         if (it == rooms_.end()) return;
 
@@ -569,6 +580,105 @@ private:
         evt_to_room(rid, "EVT USER_LEFT " + users_[uid].username + "\n");
         broadcast_chat_users(rid);
         if (!silent_reply && ps) reply(*ps, "OK ROOM_LEFT " + to_string(rid) + "\n");
+    }
+
+
+    // ===== Auto-bid helpers (server-side) =====
+    void clear_autobid(int uid) {
+        autobid_by_user_.erase(uid);
+    }
+
+    void clear_autobid_for_item(int rid, int iid) {
+        for (auto it = autobid_by_user_.begin(); it != autobid_by_user_.end(); ) {
+            if (it->second.room_id == rid && it->second.item_id == iid) it = autobid_by_user_.erase(it);
+            else ++it;
+        }
+    }
+
+    bool maybe_extend_30s(Item& itx, long long now) {
+        long long remaining = itx.end_time_ms - now;
+        if (remaining > 30000) return false;
+        long long new_end = now + 30000;
+        if (itx.end_time_ms == new_end) return false;
+        itx.end_time_ms = new_end;
+        evt_to_room(itx.room_id, "EVT TIME_EXTENDED " + to_string(itx.id) + " 30\n");
+        return true;
+    }
+
+    // Apply server-side proxy auto-bid once:
+    // If current leader is NOT the top auto-bidder (by max_price), the top auto-bidder will outbid
+    // in a single step to the minimum needed price. If current leader is already the top auto-bidder,
+    // do nothing (important: do NOT raise price just because someone set a lower max).
+    void maybe_apply_autobid_for_running_item(int rid, int iid, long long now) {
+        if (!items_.count(iid)) return;
+        Item& itx = items_[iid];
+        if (itx.state != ItemState::RUNNING) return;
+        if (!rooms_.count(rid)) return;
+        if (rooms_[rid].current_item_id != iid) return;
+
+        const int inc = 10000;
+        const int current_price = itx.current_price;
+        const int current_leader = itx.leader_user_id;
+
+        // Collect active auto-bidders in this room & bound to this running item
+        int best_uid = 0;
+        int best_max = 0;
+
+        // runner-up among auto bidders (excluding best) to compute proxy price
+        int second_max = 0;
+
+        for (const auto& kv : autobid_by_user_) {
+            int uid = kv.first;
+            const AutoBidCfg& cfg = kv.second;
+
+            if (cfg.room_id != rid) continue;
+            if (cfg.item_id != iid) continue;
+            if (cfg.max_price <= 0) continue;
+            // must still be in this room
+            auto uit = users_.find(uid);
+            if (uit == users_.end() || uit->second.current_room_id != rid) continue;
+            // seller cannot bid
+            if (uid == itx.seller_user_id) continue;
+
+            if (cfg.max_price > best_max) {
+                second_max = best_max;
+                best_max = cfg.max_price;
+                best_uid = uid;
+            } else if (cfg.max_price > second_max) {
+                second_max = cfg.max_price;
+            }
+        }
+
+        if (best_uid == 0) return;
+
+        // If best auto-bidder is already leader, do nothing
+        if (best_uid == current_leader) return;
+
+        // Must be able to beat current price
+        if (best_max < current_price + inc) return;
+
+        // runner-up max includes current leader's willingness (we assume non-auto leader won't exceed current_price)
+        int runner_up = max(current_price, second_max);
+
+        // Proxy displayed price (minimum needed to lead)
+        int new_price = best_max;
+        {
+            long long need = (long long)runner_up + inc;
+            long long min_to_lead = (long long)current_price + inc;
+            long long target = max(need, min_to_lead);
+            if (target < new_price) new_price = (int)target;
+        }
+
+        // Apply new leader + price
+        itx.current_price = new_price;
+        itx.leader_user_id = best_uid;
+
+        maybe_extend_30s(itx, now);
+        long long remaining = itx.end_time_ms - now;
+
+        evt_to_room(rid,
+                    "EVT PRICE_UPDATE " + to_string(iid) + " " + to_string(itx.current_price) + " " +
+                    username_of(best_uid) + " " + mmss(remaining) + "\n");
     }
 
     void send_snapshot(int uid, int rid) {
@@ -637,6 +747,7 @@ private:
     }
 
     void finalize_item(int rid, int iid, int winner_uid, int final_price, const string& reason) {
+        clear_autobid_for_item(rid, iid);
         auto& r = rooms_[rid];
         auto& itx = items_[iid];
 
@@ -1095,7 +1206,7 @@ private:
             if (!parse_int(parts[1], start) || !parse_int(parts[2], buy) || !parse_int(parts[3], dur))
                 return err(s, "INVALID_ITEM_FORMAT", "start/buy_now/duration must be numbers");
             if (start <= 0) return err(s, "INVALID_PRICE", "start must be > 0");
-            if (dur < 10) return err(s, "INVALID_PRICE", "duration must be >= 10s");
+            if (dur < 40) return err(s, "INVALID_PRICE", "duration must be >= 40s");
             if (buy != 0 && buy < 2 * start) return err(s, "INVALID_PRICE", "buy_now must be 0 or >= 2x start");
 
             DraftKey dk{rid, s.user_id};
@@ -1180,7 +1291,7 @@ private:
                 d->buy_now_price = v;
             } else if (field == "duration") {
                 int v=0; if (!parse_int(value, v)) return err(s, "INVALID", "duration must be number");
-                if (v < 10) return err(s, "INVALID_PRICE", "duration must be >= 10s");
+                if (v < 40) return err(s, "INVALID_PRICE", "duration must be >= 40s");
                 d->duration_sec = v;
             } else {
                 return err(s, "INVALID", "field must be name|start|buy_now|duration");
@@ -1371,6 +1482,42 @@ private:
             return err(s, "INVALID", "VIEW expects RUNNING|QUEUED|ENDED");
         }
 
+
+        if (cmd == "AUTO_BID") {
+            if (toks.size() < 2) return err(s, "INVALID", "Usage: AUTO_BID <max_price>");
+            int maxp = 0;
+            if (!parse_int(toks[1], maxp) || maxp <= 0)
+                return err(s, "INVALID", "max_price must be a positive number");
+
+            int rid = users_[s.user_id].current_room_id;
+            if (!rid) return err(s, "NOT_IN_ROOM", "Join a room first");
+            if (!rooms_.count(rid)) return err(s, "ROOM_NOT_FOUND", "No such room");
+            if (rooms_[rid].status != RoomStatus::STARTED)
+                return err(s, "ROOM_NOT_STARTED", "Room is not started");
+
+            int iid = rooms_[rid].current_item_id;
+            if (!iid) return err(s, "AUTO_BID_NOT_AVAILABLE", "No running item");
+            if (!items_.count(iid)) return err(s, "ITEM_NOT_FOUND", "No such item");
+            Item& itx = items_[iid];
+            if (itx.state != ItemState::RUNNING) return err(s, "AUTO_BID_NOT_AVAILABLE", "Item not running");
+            if (s.user_id == itx.seller_user_id) return err(s, "FORBIDDEN", "Seller cannot bid");
+
+            const int min_req = itx.current_price + 10000;
+            if (maxp < min_req) return err(s, "AUTO_BID_TOO_LOW", "min=" + to_string(min_req));
+
+            autobid_by_user_[s.user_id] = AutoBidCfg{rid, iid, maxp};
+            reply(s, "OK AUTO_BID_ON " + to_string(iid) + " " + to_string(maxp) + "\n");
+
+            // May immediately outbid current leader if needed
+            maybe_apply_autobid_for_running_item(rid, iid, now_ms());
+            return;
+        }
+
+        if (cmd == "AUTO_BID_OFF") {
+            clear_autobid(s.user_id);
+            return reply(s, "OK AUTO_BID_OFF\n");
+        }
+
         if (cmd == "BID") {
             if (toks.size() < 3) return err(s, "INVALID", "Usage: BID <item_id> <amount>");
             int iid=0, amount=0;
@@ -1409,6 +1556,9 @@ private:
             reply(s, "OK BID_ACCEPTED " + to_string(iid) + " " + to_string(amount) + "\n");
             evt_to_room(itx.room_id, "EVT PRICE_UPDATE " + to_string(iid) + " " + to_string(amount) + " " +
                         username_of(s.user_id) + " " + mmss(remaining) + "\n");
+
+            // Allow server-side auto-bidders to react after this new leading bid
+            maybe_apply_autobid_for_running_item(itx.room_id, iid, now);
             return;
         }
 

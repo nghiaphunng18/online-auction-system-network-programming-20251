@@ -14,3 +14,12 @@
 5762656 item=3 room=2 seller=1 winner=4 price=1000000 reason=BUY_NOW
 5772211 item=4 room=2 seller=2 winner=4 price=10000000 reason=BUY_NOW
 5814192 item=18 room=2 seller=1 winner=4 price=20000 reason=NORMAL_END
+1121558 item=23 room=14 seller=4 winner=0 price=0 reason=EXPIRED
+2275461 item=20 room=5 seller=4 winner=3 price=80000 reason=NORMAL_END
+2281248 item=21 room=5 seller=4 winner=3 price=20000 reason=BUY_NOW
+2286849 item=24 room=5 seller=4 winner=1 price=24000 reason=BUY_NOW
+243027 item=25 room=15 seller=1 winner=7 price=32000 reason=NORMAL_END
+334385 item=26 room=15 seller=1 winner=6 price=2010000 reason=NORMAL_END
+8196837 item=27 room=16 seller=8 winner=6 price=70000 reason=NORMAL_END
+8284468 item=28 room=16 seller=8 winner=7 price=20000 reason=NORMAL_END
+8369709 item=29 room=16 seller=8 winner=7 price=110000 reason=NORMAL_END
