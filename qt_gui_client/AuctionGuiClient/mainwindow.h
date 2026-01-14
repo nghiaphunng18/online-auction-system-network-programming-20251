@@ -65,6 +65,11 @@ private slots:
     void onBid();
     void onBuyNow();
 
+    // Auto-bid (server-side)
+    void onAutoBidApply();
+    void onAutoBidOff();
+
+
     // Chat
     void onRefreshChatUsers();
     void onChatSend();
@@ -141,6 +146,12 @@ private:
     void tickCountdown();
     static int parseMmssToSeconds(const QString& mmss);
     static QString formatSecondsToMmss(int sec);
+
+
+    // draft input validation (Seller)
+    void clearDraftInputErrors();
+    void markInputInvalid(QLineEdit* w, const QString& msg);
+    bool validateDraftInputs(QString& outName, int& outStart, int& outBuy, int& outDur);
 
     // table helpers
     void roomsTableClear();
